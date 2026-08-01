@@ -80,8 +80,10 @@
             animation: loadingOut 1s ease 3.2s forwards;
         }
 
+        /* 画像は「幅」だけ決めれば、高さは自動でついてくる */
         #loading .lamp {
-            font-size: 64px;
+            width: clamp(110px, 30vw, 170px);
+            height: auto;
             animation: flicker 1.2s infinite;
         }
 
@@ -164,8 +166,11 @@
         }
 
         .hero .emoji {
-            font-size: clamp(60px, 16vw, 120px);
+            width: clamp(150px, 38vw, 300px);
+            height: auto;
             margin-bottom: 10px;
+            /* 画像のまわりをぼんやり光らせる（こわさが増す） */
+            filter: drop-shadow(0 0 30px rgba(255, 138, 31, 0.45));
             animation: float 3s ease-in-out infinite;
         }
 
@@ -273,9 +278,12 @@
         }
 
         .card .icon {
-            font-size: 46px;
             display: block;
-            margin-bottom: 14px;
+            width: 120px;
+            height: 120px;
+            /* 正方形のわくに、画像をはみ出さずに収める */
+            object-fit: contain;
+            margin: 0 auto 14px;
         }
 
         .card h3 {
@@ -398,20 +406,17 @@
 
 <body>
 
-    <!-- ==============================================================
-     ★書きかえ③ ローディング画面（開いてすぐ出る）
-     ============================================================== -->
-    <div id="loading">
-        <span class="lamp">🕯</span>
-        <p>NOW LOADING</p>
-    </div>
+
 
 
     <!-- ==============================================================
      ★書きかえ④ タイトルとキャッチコピー
      ============================================================== -->
     <div class="hero">
-        <span class="emoji">🎃</span>
+        <img class="emoji" src="img/gekikowa/Rotting_jack-o'-lantern.png" alt="かぼちゃのランタン">
+        <!-- かわいくしたい人は、上の行を消して↓を使う
+        <img class="emoji" src="img/tyoikowa/Jack-o'-lantern_pumpkin.png" alt="かぼちゃのランタン">
+        -->
         <h1>HAUNTED HOUSE</h1>
         <p class="sub">恐 怖 の 館 へ よ う こ そ</p>
         <p class="scroll-hint">▼ SCROLL ▼</p>
@@ -445,7 +450,10 @@
 
     <!-- ==============================================================
      ★書きかえ⑦ 見どころ3つ
-     絵文字は 🎃 👻 🕷 🦇 🕸 💀 🧟 🩸 🕯 🪦 などが使えます
+     画像は img フォルダの中から選べます
+       img/gekikowa/… ＝ げきこわ（写真みたいで本気でこわい）
+       img/tyoikowa/… ＝ ちょいこわ（イラストでかわいい）
+     src="…" の中のファイル名を書きかえると、絵が変わります
      ============================================================== -->
     <section>
         <h2 class="reveal">3つの恐怖</h2>
@@ -454,21 +462,24 @@
         <div class="cards">
 
             <div class="card reveal">
-                <span class="icon">👻</span>
+                <img class="icon" src="img/gekikowa/Pale_ghost_with_hollow.png" alt="さまよう霊">
+                <!-- ちょいこわ版： img/tyoikowa/White_ghost_floating_playful.png -->
                 <h3>さまよう霊</h3>
                 <p>暗闇の中、あなたの名前を呼ぶ声がする。決してふり返ってはいけない。</p>
             </div>
 
             <div class="card reveal">
-                <span class="icon">🕷</span>
-                <h3>蜘蛛の間</h3>
-                <p>天井から降りそそぐ無数の糸。何かが、肩の上を歩いている。</p>
+                <img class="icon" src="img/gekikowa/Swarm_of_bats_flying.png" alt="蝙蝠の群れ">
+                <!-- ちょいこわ版： img/tyoikowa/Bat_hanging.png -->
+                <h3>蝙蝠の間</h3>
+                <p>天井をおおう無数の羽音。ひとつ、また、ひとつと、闇が動きだす。</p>
             </div>
 
             <div class="card reveal">
-                <span class="icon">🕯</span>
+                <img class="icon" src="img/gekikowa/Menacing_black_cat.png" alt="黒い猫">
+                <!-- ちょいこわ版： img/tyoikowa/Black_cat_wearing.png -->
                 <h3>最後の扉</h3>
-                <p>ろうそくの火が消えたとき、扉のむこうから足音が近づいてくる。</p>
+                <p>扉の前に、赤い目の猫が座っている。通してくれるかは、猫しだい。</p>
             </div>
 
         </div>
