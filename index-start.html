@@ -92,22 +92,24 @@
 
             /* ==========================================================
                ★えらぶ④ アニメーション（動きかた）
+
+               さいしょは、どちらも none（動かない）にしてあります。
+               none を、下のリストの言葉に書きかえると、動きだします。
                ========================================================== */
 
             /* ④-1 大きい文字の動き
-                 flicker 4s infinite            … ろうそくみたいにチカチカ
-                 wobble 3s ease-in-out infinite … ゆらゆら かたむく
-                 shake 0.4s infinite            … ぶるぶる ふるえる
-                 none                           … 動かさない            */
-            --ugoki-title: flicker 4s infinite;
+                 none                             … 動かさない（いまここ）
+                 flicker 4s infinite              … ろうそくみたいにチカチカ
+                 wobble 3s ease-in-out infinite   … ゆらゆら かたむく
+                 shake 0.4s infinite              … ぶるぶる ふるえる      */
+            --ugoki-title: none;
 
             /* ④-2 画像の動き
-                 float 3s ease-in-out infinite  … ふわふわ 浮く
+                 none                             … 動かさない（いまここ）
+                 float 3s ease-in-out infinite    … ふわふわ 浮く
                  bounce 0.9s ease-in-out infinite … ぴょんぴょん はずむ
-                 spin 8s linear infinite        … ぐるぐる まわる
-                 none                           … 動かさない            */
-            --ugoki-e: float 3s ease-in-out infinite;
-
+                 spin 8s linear infinite          … ぐるぐる まわる        */
+            --ugoki-e: none;
 
 
             /* ==========================================================
@@ -175,44 +177,12 @@
         }
 
 
-        /* ========== ローディング画面（さいしょの暗転） ========== */
-        #loading {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: var(--bg2);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 18px;
-            /* 1.6秒たってから、ゆっくり消える（じらしたい人は数字を大きく） */
-            animation: loadingOut 1s ease 1.6s forwards;
-        }
+        /* ==============================================================
+           ★えらぶ④ で使う「動きのレシピ」
 
-        /* 画像は「幅」だけ決めれば、高さは自動でついてくる */
-        #loading .lamp {
-            width: clamp(110px, 30vw, 170px);
-            height: auto;
-            animation: var(--ugoki-e);
-        }
-
-        #loading p {
-            color: var(--accent);
-            font-size: 13px;
-            letter-spacing: 0.4em;
-            opacity: 0.8;
-        }
-
-        @keyframes loadingOut {
-            to {
-                opacity: 0;
-                visibility: hidden;
-            }
-        }
-
-
-        /* ========== ★④で使う動きの中身 ========== */
+           ここに書いてある名前を、★④の none と入れかえると動きだします。
+           （いまは、どれも使われていません）
+           ============================================================== */
 
         /* ろうそくみたいにチカチカ */
         @keyframes flicker {
@@ -361,7 +331,6 @@
             font-size: 13px;
             letter-spacing: 0.2em;
             opacity: 0.7;
-            animation: float 2s ease-in-out infinite;
         }
 
 
@@ -589,7 +558,7 @@
      ★えらぶ⑤ 画像
 
      いま置いてあるのは、ぜんぶ「仮の画像」（img/kari.png）です。
-     この下の5か所ぜんぶを、本番の画像に取りかえましょう。
+     この下の4か所ぜんぶを、本番の画像に取りかえましょう。
 
      src="..." の中の【フォルダ名】と【ファイル名】を書きかえます。
 
@@ -615,15 +584,6 @@
      ※ alt="..." は「画像が出なかったときに出る文字」です。
         画像に合わせて書きかえましょう
      ============================================================== -->
-
-
-    <!-- ローディング（さいしょに出てくる画面）
-         ※ 編集中じゃまなときは、この <div id="loading"> から
-            </div> までを、まるごと消してOKです -->
-    <div id="loading">
-        <img class="lamp" src="img/kari.png" alt="仮の画像">
-        <p>まもなく、扉がひらきます</p>
-    </div>
 
 
     <!-- ヒーロー（いちばん上の大きい場所） -->
