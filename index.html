@@ -5,438 +5,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- ============================================================
-     ★書きかえ① ブラウザのタブに出る名前
-     ============================================================ -->
     <title>恐怖の館 ─ HAUNTED HOUSE</title>
 
-    <!-- 日本語のこわいフォント：明朝体（Jホラー映画の定番）と 筆文字（かくれんぼ用） -->
-    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Shippori+Mincho+B1:wght@400;700;800&family=Yuji+Boku&display=swap"
+    <!-- フォントと、見た目のしくみ（shikumi.css）を読みこむ。さわらなくてOK -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Creepster&family=Shippori+Mincho+B1:wght@400;700;800&family=Yuji+Boku&family=Zen+Maru+Gothic:wght@400;700;900&family=Yusei+Magic&display=swap"
         rel="stylesheet">
+    <link href="shikumi.css" rel="stylesheet">
 
     <style>
-        /* ==============================================================
-   ★書きかえ② いろ（カラーパレット）
-   使いたいものだけ残して、あとは前後を  /*  と  */
+        /* 完成見本：ホラー（index-start.html の★①〜⑤を選んだだけ） */
 
-        /* --- パレットA：ていばん オレンジ × 黒 --- */
-        :root {
-            --bg: #080604;
-            /* 背景の色（数字を小さくするほど暗くなる） */
-            --main: #ff8a1f;
-            /* メインの色（見出しなど） */
-            --accent: #ffd76a;
-            /* アクセントの色 */
-            --text: #f3e9dc;
-            /* 文字の色 */
-        }
-
-
-        /* ==============================================================
-   ここから下は「見た目のしくみ」
-   さわらなくてOK。よゆうがあれば数字を変えてみよう
-   ============================================================== */
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* ★①② 背景色・文字色 */
         body {
-            background: var(--bg);
-            color: var(--text);
-            /* 明朝体にするだけで、Jホラーの空気になる */
-            font-family: "Shippori Mincho B1", serif;
-            line-height: 1.9;
-            overflow-x: hidden;
+            background-color: #080604; /* ★① くろ */
+            color: #f3e9dc;            /* ★② クリーム */
         }
 
-        /* 画面の四すみを暗くする（ビネットという手法。ぐっとこわくなる） */
-        body::after {
-            content: "";
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            /* クリックのじゃまをしない */
-            z-index: 500;
-            background: radial-gradient(ellipse at center,
-                    transparent 35%, rgba(0, 0, 0, 0.85) 100%);
-        }
-
-
-        /* ========== ①ローディング画面（さいしょの暗転） ========== */
-        #loading {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: #000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 18px;
-            /* 3.2秒かけて、ゆっくり消える */
-            animation: loadingOut 1s ease 3.2s forwards;
-        }
-
-        /* 画像は「幅」だけ決めれば、高さは自動でついてくる */
-        #loading .lamp {
-            width: clamp(110px, 30vw, 170px);
-            height: auto;
-            animation: flicker 1.2s infinite;
-        }
-
-        #loading p {
-            color: #666;
-            font-size: 13px;
-            letter-spacing: 0.4em;
-        }
-
-        @keyframes loadingOut {
-            to {
-                opacity: 0;
-                visibility: hidden;
-            }
-        }
-
-
-        /* ========== ヒーロー（いちばん上の大きい場所） ========== */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 24px;
-            position: relative;
-            background:
-                radial-gradient(ellipse at 50% 100%, rgba(255, 255, 255, 0.05), transparent 55%),
-                var(--bg);
-        }
-
-        .hero h1 {
-            font-family: "Creepster", cursive;
-            font-size: clamp(48px, 12vw, 130px);
-            color: var(--main);
-            letter-spacing: 0.04em;
-            line-height: 1.1;
-            text-shadow: 0 0 14px var(--main), 0 0 40px rgba(255, 138, 31, 0.4);
-            animation: flicker 4s infinite;
-        }
-
-        /* ろうそくみたいにチカチカする動き */
-        @keyframes flicker {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            92% {
-                opacity: 1;
-            }
-
-            94% {
-                opacity: 0.35;
-            }
-
-            96% {
-                opacity: 1;
-            }
-
-            97% {
-                opacity: 0.5;
-            }
-
-            98% {
-                opacity: 1;
-            }
-        }
-
-        .hero .sub {
-            margin-top: 18px;
-            /* かすれた筆文字。ホラー映画のタイトルの定番 */
-            font-family: "Yuji Boku", serif;
-            font-size: clamp(20px, 5vw, 32px);
-            letter-spacing: 0.3em;
-            color: var(--accent);
-            text-shadow: 0 0 12px rgba(255, 215, 106, 0.5);
-        }
-
-        .hero .emoji {
-            width: clamp(150px, 38vw, 300px);
-            height: auto;
-            margin-bottom: 10px;
-            /* 画像のまわりをぼんやり光らせる（こわさが増す） */
-            filter: drop-shadow(0 0 30px rgba(255, 138, 31, 0.45));
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-18px);
-            }
-        }
-
-        .scroll-hint {
-            position: absolute;
-            bottom: 28px;
-            font-size: 13px;
-            letter-spacing: 0.2em;
-            opacity: 0.6;
-            animation: float 2s ease-in-out infinite;
-        }
-
-
-        /* ========== ②警告セクション ========== */
-        .warning {
-            background: #000;
-            text-align: center;
-            padding: 110px 24px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .warning .mark {
-            font-size: 60px;
-            display: block;
-            margin-bottom: 20px;
-            animation: flicker 3s infinite;
-        }
-
-        .warning h2 {
-            /* 血のような赤 × にじむ光。「警告」がいちばんこわく見える */
-            color: #d00000;
-            letter-spacing: 0.3em;
-            margin-bottom: 18px;
-            text-shadow: 0 0 18px rgba(208, 0, 0, 0.8);
-        }
-
-        .warning p {
-            font-size: clamp(15px, 4vw, 20px);
-            letter-spacing: 0.15em;
-            opacity: 0.75;
-        }
-
-
-        /* ========== 中身のセクション ========== */
-        section {
-            max-width: 860px;
-            margin: 0 auto;
-            padding: 90px 24px;
-        }
-
+        /* ★③ 見出し */
+        h1,
         h2 {
-            /* 見出しは筆文字＋にじむ光で、こわさを出す */
-            font-family: "Yuji Boku", serif;
-            font-weight: 400;
-            font-size: clamp(26px, 6vw, 42px);
-            color: var(--main);
-            text-align: center;
-            margin-bottom: 12px;
-            text-shadow: 0 0 16px rgba(255, 138, 31, 0.5);
+            color: #ff8a1f;                     /* オレンジ */
+            font-family: "Creepster", "Yuji Boku", serif;
+            /* 2つ並べると、英語は Creepster・日本語は Yuji Boku になる */
         }
 
-        h2+.lead {
-            text-align: center;
-            color: var(--accent);
-            font-size: 14px;
-            letter-spacing: 0.2em;
-            margin-bottom: 46px;
-        }
+        /* ★④ アニメーション */
+        h1       { animation: flicker 4s infinite; }            /* チカチカ */
+        .haikei1 { animation: float 3s ease-in-out infinite; }  /* ふわふわ */
+        .haikei2 { animation: shake 0.4s infinite; }            /* ぶるぶる */
+        .haikei3 { animation: wobble 3s ease-in-out infinite; } /* ゆらゆら */
 
-
-        /* ========== 3つならぶカード ========== */
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-            gap: 22px;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 14px;
-            padding: 32px 24px;
-            text-align: center;
-            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-        }
-
-        /* マウスを乗せると浮きあがる */
-        .card:hover {
-            transform: translateY(-10px);
-            border-color: var(--main);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
-        }
-
-        .card .icon {
-            display: block;
-            width: 120px;
-            height: 120px;
-            /* 正方形のわくに、画像をはみ出さずに収める */
-            object-fit: contain;
-            margin: 0 auto 14px;
-        }
-
-        .card h3 {
-            font-family: "Yuji Boku", serif;
-            font-weight: 400;
-            color: var(--accent);
-            font-size: 21px;
-            margin-bottom: 10px;
-        }
-
-        .card p {
-            font-size: 14px;
-            opacity: 0.85;
-        }
-
-
-        /* ========== 料金・じかん の表 ========== */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 15px;
-        }
-
-        th,
-        td {
-            padding: 16px 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.14);
-            text-align: left;
-        }
-
-        th {
-            color: var(--accent);
-            width: 38%;
-        }
-
-
-        /* ========== ボタン ========== */
-        .btn-wrap {
-            text-align: center;
-            margin-top: 44px;
-        }
-
-        .btn {
-            display: inline-block;
-            background: var(--main);
-            color: var(--bg);
-            font-weight: 700;
-            padding: 17px 46px;
-            border-radius: 999px;
-            text-decoration: none;
-            letter-spacing: 0.1em;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .btn:hover {
-            transform: scale(1.06);
-            box-shadow: 0 0 30px var(--main);
-        }
-
-
-        /* ========== ③かくれんぼ（くりかえしの演出） ========== */
-        .kakurenbo {
-            background: #000;
-            padding: 0;
-            max-width: none;
-        }
-
-        .kakurenbo .line {
-            min-height: 62vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            /* 子どもの手書きみたいな筆文字。これがいちばんこわい */
-            font-family: "Yuji Boku", serif;
-            font-size: clamp(30px, 9vw, 74px);
-            font-weight: 400;
-            letter-spacing: 0.2em;
-            color: #4a4a4a;
-        }
-
-        /* さいごの1行だけ、赤く大きく */
-        .kakurenbo .line.last {
-            color: var(--main);
-            min-height: 100vh;
-            font-size: clamp(38px, 13vw, 110px);
-            text-shadow: 0 0 30px var(--main);
-        }
-
-
-        /* ========== ④スクロールでふわっと出る ========== */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 1s ease, transform 1s ease;
-        }
-
-        .reveal.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-
-        /* ========== いちばん下 ========== */
-        footer {
-            text-align: center;
-            padding: 40px 24px 60px;
-            font-size: 12px;
-            opacity: 0.5;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* スマホで見たとき */
-        @media (max-width: 600px) {
-            section {
-                padding: 64px 20px;
-            }
+        /* よゆうがある人へ：四すみを暗くする（ビネット） */
+        body::after {
+            background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.85) 100%);
         }
     </style>
 </head>
 
 <body>
 
+    <!-- ★⑤ 画像は4か所 -->
 
-
-
-    <!-- ==============================================================
-     ★書きかえ④ タイトルとキャッチコピー
-     ============================================================== -->
+    <!-- ヒーロー（いちばん上の大きい場所） -->
     <div class="hero">
-        <img class="emoji" src="img/gekikowa/Rotting_jack-o'-lantern.png" alt="かぼちゃのランタン">
-        <!-- かわいくしたい人は、上の行を消して↓を使う
-        <img class="emoji" src="img/tyoikowa/Jack-o'-lantern_pumpkin.png" alt="かぼちゃのランタン">
-        -->
+
+        <!-- ★⑤ 画像1（かぼちゃがおすすめ） -->
+        <img class="emoji" src="img/gekikowa/Rotting_jack-o'-lantern.png" alt="くさったかぼちゃのランタン">
+
         <h1>HAUNTED HOUSE</h1>
         <p class="sub">恐 怖 の 館 へ よ う こ そ</p>
         <p class="scroll-hint">▼ SCROLL ▼</p>
     </div>
 
-
-    <!-- ==============================================================
-     ★書きかえ⑤ 警告（さきに予告して、こわがらせる）
-     ============================================================== -->
+    <!-- 警告（さきに予告して、こわがらせる） -->
     <div class="warning">
         <span class="mark">⚠️</span>
         <h2 class="reveal">警 告</h2>
         <p class="reveal">このサイトでは、不可解なことが起こります</p>
     </div>
 
-
-    <!-- ==============================================================
-     ★書きかえ⑥ お化け屋敷の紹介文
-     ============================================================== -->
+    <!-- お化け屋敷の紹介文 -->
     <section>
+        <!-- ★⑤ 画像2（おばけがおすすめ） -->
+        <img class="haikei haikei1" src="img/gekikowa/Pale_ghost_with_hollow.png" alt="">
         <h2 class="reveal">逃げられるか？</h2>
         <p class="lead reveal">ABOUT</p>
         <p class="reveal">
@@ -447,37 +79,25 @@
         </p>
     </section>
 
-
-    <!-- ==============================================================
-     ★書きかえ⑦ 見どころ3つ
-     画像は img フォルダの中から選べます
-       img/gekikowa/… ＝ げきこわ（写真みたいで本気でこわい）
-       img/tyoikowa/… ＝ ちょいこわ（イラストでかわいい）
-     src="…" の中のファイル名を書きかえると、絵が変わります
-     ============================================================== -->
     <section>
+        <!-- ★⑤ 画像3（こうもりがおすすめ） -->
+        <img class="haikei haikei2" src="img/gekikowa/Swarm_of_bats_flying.png" alt="">
         <h2 class="reveal">3つの恐怖</h2>
         <p class="lead reveal">ATTRACTIONS</p>
 
         <div class="cards">
 
             <div class="card reveal">
-                <img class="icon" src="img/gekikowa/Pale_ghost_with_hollow.png" alt="さまよう霊">
-                <!-- ちょいこわ版： img/tyoikowa/White_ghost_floating_playful.png -->
                 <h3>さまよう霊</h3>
                 <p>暗闇の中、あなたの名前を呼ぶ声がする。決してふり返ってはいけない。</p>
             </div>
 
             <div class="card reveal">
-                <img class="icon" src="img/gekikowa/Swarm_of_bats_flying.png" alt="蝙蝠の群れ">
-                <!-- ちょいこわ版： img/tyoikowa/Bat_hanging.png -->
                 <h3>蝙蝠の間</h3>
                 <p>天井をおおう無数の羽音。ひとつ、また、ひとつと、闇が動きだす。</p>
             </div>
 
             <div class="card reveal">
-                <img class="icon" src="img/gekikowa/Menacing_black_cat.png" alt="黒い猫">
-                <!-- ちょいこわ版： img/tyoikowa/Black_cat_wearing.png -->
                 <h3>最後の扉</h3>
                 <p>扉の前に、赤い目の猫が座っている。通してくれるかは、猫しだい。</p>
             </div>
@@ -485,11 +105,10 @@
         </div>
     </section>
 
-
-    <!-- ==============================================================
-     ★書きかえ⑧ 開催の情報
-     ============================================================== -->
+    <!-- 開催の情報 -->
     <section>
+        <!-- ★⑤ 画像4（黒ねこがおすすめ） -->
+        <img class="haikei haikei3" src="img/gekikowa/Menacing_black_cat.png" alt="">
         <h2 class="reveal">開催情報</h2>
         <p class="lead reveal">INFORMATION</p>
 
@@ -521,47 +140,24 @@
         </div>
     </section>
 
-
-    <!-- ==============================================================
-     ★書きかえ⑨ かくれんぼ
-     ★★ここがこのサイトのいちばんの見せ場★★
-     おなじ言葉をくりかえして、さいごの1つだけ変えるのがコツ。
-     行をコピペしてふやすと、もっとこわくなる
-     ============================================================== -->
+    <!-- かくれんぼ：行をコピペして増やすほど、こわくなる -->
     <div class="kakurenbo">
         <div class="line reveal">もういいかい</div>
         <div class="line reveal">まあだだよ</div>
         <div class="line reveal">もういいかい</div>
         <div class="line reveal">まあだだよ</div>
-        <div class="line reveal">もういいかい</div>
-        <div class="line reveal">まあだだよ</div>
-        <div class="line reveal">もういいかい</div>
 
         <!-- ↓ここだけ言葉が変わる -->
         <div class="line last reveal">もういいよ</div>
     </div>
 
-
-    <!-- ★書きかえ⑩ いちばん下 -->
+    <!-- いちばん下 -->
     <footer>
         <p class="reveal">お気をつけてお帰りください</p>
         <p style="margin-top:14px;">© 2026 HAUNTED HOUSE ─ 入館は自己責任でお願いします</p>
     </footer>
 
-
-    <script>
-        /* スクロールして画面に入ったら、ふわっと出すしくみ */
-        const io = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('show');
-                    io.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.2 });
-
-        document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
-    </script>
+    <script src="shikumi.js"></script>
 
 </body>
 
