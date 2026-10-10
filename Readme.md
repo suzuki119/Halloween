@@ -12,6 +12,8 @@
 | `index-start.html`   | **講座で書きかえるファイル（これを使います）**                      |
 | `index.html`         | 完成見本：**ホラー** 黒 × オレンジ／明朝体                          |
 | `index-cartoon.html` | 完成見本：**カートゥーン** むらさきの夜空／まるい文字               |
+| `shikumi.css`        | 見た目のしくみ（`index-start.html` が読みこむ。さわらなくてOK）     |
+| `shikumi.js`         | スクロールでふわっと出すしくみ（さわらなくてOK）                    |
 
 まず見本の2つをダブルクリックして、どんなサイトができるのか見てみましょう。
 そのあと `index-start.html` を開いて、**★①〜⑤を選んでいきます**。
@@ -73,8 +75,8 @@
 
 ```css
 body {
-    background-color: #cccccc;  /* ★① 背景色（いまは はい色） */
-    color: #222222;             /* ★② 文字色（いまは くろ） */
+    background-color: #cccccc; /* ★① 背景色 */
+    color: #222222;            /* ★② 文字色 */
 }
 ```
 
@@ -110,13 +112,10 @@ VSCode なら、色の四角をクリックすると色えらびの画面が出�
 アニメーションは、**さいしょは ぜんぶ `none`（動かない）** です。
 
 ```css
-h1 {
-    animation: none;   /* ★④-1 いちばん上の大きい文字 */
-}
-
-.haikei1 {
-    animation: none;   /* ★④-2 背景の画像1 */
-}
+h1       { animation: none; } /* 大きい文字 */
+.haikei1 { animation: none; } /* 背景の画像1 */
+.haikei2 { animation: none; } /* 背景の画像2 */
+.haikei3 { animation: none; } /* 背景の画像3 */
 ```
 
 この `none` を、下の表の言葉に書きかえると、動きだします。
@@ -166,8 +165,14 @@ h1 {
 | `img/gekikowa` | **げきこわ** 写真みたいで本気こわい | かぼちゃ・おばけ・こうもり・黒猫 |
 | `img/tyoikowa` | **ちょいこわ** イラストでかわいい   | かぼちゃ・おばけ・こうもり・黒猫 |
 
-ファイル名の一覧は、`index-start.html` の `<body>` のいちばん上に
-まとめて書いてあります。そこからコピペしてください。
+**ファイル名の一覧**（ここからコピペしてください）
+
+| なに     | `img/gekikowa/…`（げきこわ）  | `img/tyoikowa/…`（ちょいこわ）     |
+| -------- | ----------------------------- | ---------------------------------- |
+| かぼちゃ | `Rotting_jack-o'-lantern.png` | `Jack-o'-lantern_pumpkin.png`      |
+| おばけ   | `Pale_ghost_with_hollow.png`  | `White_ghost_floating_playful.png` |
+| こうもり | `Swarm_of_bats_flying.png`    | `Bat_hanging.png`                  |
+| 黒ねこ   | `Menacing_black_cat.png`      | `Black_cat_wearing.png`            |
 
 **入れかえる場所は4か所**
 
@@ -238,8 +243,9 @@ Windows は `Windows キー + .`、Mac は `⌘ + Control + Space` で出せま�
 
 - カードを4つ、5つに増やす（`<div class="card reveal">` ごとコピペ）
 - 表に行を足す（`<tr><th>◯◯</th><td>◯◯</td></tr>` をコピペ）
-- ビネット（四すみの暗さ）を `rgba(0, 0, 0, 0)` の最後の `0` → `0.85` に変えてみる
-- 背景の画像の うすさ（`.haikei` の `opacity: 0.5`）や、くっつく位置（`top: 25vh`）を変えてみる
+- `shikumi.css` を開いて、数字をいじってみる
+  - ビネット（四すみの暗さ）：`body::after` の `rgba(0, 0, 0, 0)` の最後の `0` → `0.85`
+  - 背景の画像：`.haikei` の うすさ（`opacity`）や、くっつく位置（`top`）
 - 文章も、自分のことばに書きかえてみる
 
 数字をいじって、こわれても大丈夫です。

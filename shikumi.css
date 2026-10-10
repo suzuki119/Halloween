@@ -1,0 +1,398 @@
+/* ==============================================================
+   見た目のしくみ（index-start.html から読みこんでいます）
+   さわらなくてOK。よゆうがある人は、数字を変えてみよう
+   ============================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    line-height: 1.9;
+    overflow-x: hidden;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    /* クリックのじゃまをしない */
+    z-index: 500;
+    background: radial-gradient(ellipse at center,
+            transparent 40%, rgba(0, 0, 0, 0) 100%);
+}
+
+
+/* ========== 背景の画像（セクションの中を、いっしょについてくる） ==========
+   position: sticky … スクロールしても、そのセクションが終わるまで
+                      画面の同じ場所にくっついている */
+.haikei {
+    position: sticky;
+    top: 25vh;
+    /* 画面の上から、どれくらいの場所にくっつくか */
+    display: block;
+    width: 50%;
+    height: auto;
+    object-fit: contain;
+    /* 画像を、はみ出さずに正方形のわくに収める */
+    margin-bottom: -160px;
+    /* 画像のぶんだけ文章がずれないようにする */
+    opacity: 0.5;
+    /* うすさ（1にすると くっきり） */
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* 右がわに置く画像 */
+.haikei2 {
+    margin-left: auto;
+}
+
+/* 文章は、背景の画像より手前に出す */
+section> :not(.haikei) {
+    position: relative;
+    z-index: 1;
+}
+
+
+/* ==============================================================
+   ★④ で使う「動きのレシピ」
+
+   ここに書いてある名前を、★④の none と入れかえると動きだします。
+   ============================================================== */
+
+/* ろうそくみたいにチカチカ */
+@keyframes flicker {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    92% {
+        opacity: 1;
+    }
+
+    94% {
+        opacity: 0.35;
+    }
+
+    96% {
+        opacity: 1;
+    }
+
+    97% {
+        opacity: 0.5;
+    }
+
+    98% {
+        opacity: 1;
+    }
+}
+
+/* ゆらゆら かたむく */
+@keyframes wobble {
+
+    0%,
+    100% {
+        transform: rotate(-2deg);
+    }
+
+    50% {
+        transform: rotate(2deg);
+    }
+}
+
+/* ぶるぶる ふるえる */
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(-3px, 1px);
+    }
+
+    50% {
+        transform: translate(3px, -1px);
+    }
+
+    75% {
+        transform: translate(-2px, -2px);
+    }
+}
+
+/* ふわふわ 浮く */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-18px);
+    }
+}
+
+/* ぴょんぴょん はずむ */
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(1, 1);
+    }
+
+    50% {
+        transform: translateY(-22px) scale(0.96, 1.04);
+    }
+}
+
+/* ぐるぐる まわる */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* ========== ヒーロー（いちばん上の大きい場所） ========== */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 24px;
+}
+
+.hero h1 {
+    font-size: clamp(48px, 12vw, 130px);
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+}
+
+.hero .sub {
+    margin-top: 18px;
+    font-size: clamp(20px, 5vw, 32px);
+    letter-spacing: 0.3em;
+}
+
+.hero .emoji {
+    width: clamp(150px, 38vw, 300px);
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.scroll-hint {
+    position: absolute;
+    bottom: 28px;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    opacity: 0.7;
+}
+
+
+/* ========== 警告セクション ========== */
+.warning {
+    /* 背景色の上に、うすい黒を重ねて すこし暗くする */
+    background: rgba(0, 0, 0, 0.12);
+    text-align: center;
+    padding: 110px 24px;
+}
+
+.warning .mark {
+    font-size: 60px;
+    display: block;
+    margin-bottom: 20px;
+}
+
+.warning h2 {
+    color: #d00000;
+    /* 「警告」の文字の色 */
+    letter-spacing: 0.3em;
+    margin-bottom: 18px;
+}
+
+.warning p {
+    font-size: clamp(15px, 4vw, 20px);
+    letter-spacing: 0.15em;
+    opacity: 0.8;
+}
+
+
+/* ========== 中身のセクション ========== */
+section {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 90px 24px;
+}
+
+h2 {
+    font-weight: 400;
+    font-size: clamp(26px, 6vw, 42px);
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+h2+.lead {
+    text-align: center;
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    margin-bottom: 46px;
+    opacity: 0.7;
+}
+
+
+/* ========== 3つならぶカード ========== */
+.cards {
+    display: grid;
+    /* 画面がせまいと、じどうで たてに ならぶ */
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 22px;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.25);
+    /* カードの背景（うすい白） */
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    /* カードのわく線 */
+    border-radius: 14px;
+    /* かどのまるさ（26px にするとカートゥーンっぽい） */
+    padding: 32px 24px;
+    text-align: center;
+    transition: transform 0.25s;
+}
+
+/* マウスを乗せると浮きあがる */
+.card:hover {
+    transform: translateY(-10px);
+}
+
+.card h3 {
+    font-weight: 700;
+    font-size: 21px;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 14px;
+    opacity: 0.85;
+}
+
+
+/* ========== 開催情報の表 ========== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 14px;
+    /* まるいかどから、はみ出さないようにする */
+    overflow: hidden;
+}
+
+th,
+td {
+    padding: 16px 14px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.35);
+    text-align: left;
+}
+
+th {
+    width: 38%;
+}
+
+
+/* ========== ボタン ========== */
+.btn-wrap {
+    text-align: center;
+    margin-top: 44px;
+}
+
+.btn {
+    display: inline-block;
+    color: inherit;
+    /* 文字色（★②）と同じ色になる */
+    font-weight: 700;
+    padding: 17px 46px;
+    border: 2px solid currentColor;
+    border-radius: 999px;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    transition: transform 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-3px) scale(1.04);
+}
+
+
+/* ========== かくれんぼ（くりかえしの演出） ========== */
+.kakurenbo {
+    background: rgba(0, 0, 0, 0.12);
+    padding: 0;
+    max-width: none;
+}
+
+.kakurenbo .line {
+    min-height: 62vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(30px, 9vw, 74px);
+    letter-spacing: 0.2em;
+}
+
+/* さいごの1行だけ、大きく目立たせる */
+.kakurenbo .line.last {
+    min-height: 100vh;
+    font-size: clamp(38px, 13vw, 110px);
+    font-weight: 700;
+}
+
+/* JavaScript がつける show より、かくれんぼの うすさを優先する */
+.kakurenbo .line.show {
+    opacity: 0.35;
+}
+
+.kakurenbo .line.last.show {
+    opacity: 1;
+}
+
+
+/* ========== スクロールでふわっと出る ========== */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.reveal.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* ========== いちばん下 ========== */
+footer {
+    text-align: center;
+    padding: 40px 24px 60px;
+    font-size: 12px;
+    opacity: 0.6;
+}
+
+/* スマホで見たとき */
+@media (max-width: 600px) {
+    section {
+        padding: 64px 20px;
+    }
+}
